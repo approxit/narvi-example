@@ -1,0 +1,22 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    entrypoint: "poetry run python manage.py"
+    command: "runserver 0.0.0.0:8000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=postgres
+    volumes:
+      - ./:/app/
+
+  db:
+    image: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+volumes:
+  db_data:
